@@ -14,9 +14,6 @@ public class ClaudeService {
 
     private final OkHttpClient client = new OkHttpClient();
 
-    /**
-     * Отправляет запрос к Gemini API с системной инструкцией и пользовательским сообщением
-     */
     public String generateContent(String systemInstructionText, String userMessageText) throws IOException {
         JSONObject systemInstruction = new JSONObject()
                 .put("parts", new JSONArray()
@@ -33,7 +30,7 @@ public class ClaudeService {
                 .put("system_instruction", systemInstruction)
                 .put("contents", contents)
                 .put("generationConfig", new JSONObject()
-                        .put("maxOutputTokens", 300)
+                        .put("maxOutputTokens", 1024)
                         .put("temperature", 0.7));
 
         RequestBody body = RequestBody.create(requestBodyJson.toString(), MediaType.parse("application/json"));
@@ -78,9 +75,8 @@ public class ClaudeService {
     public static void main(String[] args) {
         ClaudeService client = new ClaudeService();
 
-        // Например, системная инструкция для ОВЗ
         String systemInstruction = "Ты — помощник для людей с ограниченными возможностями здоровья (ОВЗ). Отвечай просто, понятно и с заботой.";
-        String userMessage = "Расскажи, какие социальные выплаты положены людям с инвалидностью в России.";
+        String userMessage = "Расскажи, какие социальные выплаты положены людям с инвалидностью в Кыргызстане.";
 
         try {
             String answer = client.generateContent(systemInstruction, userMessage);
